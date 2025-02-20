@@ -1,0 +1,8 @@
+.postItem {
+  margin: 10px;
+  border: 1px solid black;
+}
+
+#formPost input {
+  display: block;
+}
