@@ -46,7 +46,7 @@ const PostForm = () => {
         }));
     }
 
-    // funzione di gestione dell'invio dell'intero form 
+    // funzione di gestione dell'invio dell'intero form per il nuovo post
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -56,7 +56,8 @@ const PostForm = () => {
                 // uso la risposta dell API per creare il nuovo array posts
                 setPosts((currentPosts) => [...currentPosts, res.data])
             })
-            .catch()
+            .catch(err => console.log(err)
+            )
 
         // aggiungo il nuovo post alla lista      possiamo usare id: Date.now() per un id univoco
         // setPosts((currentPosts) => [...currentPosts, { id: currentPosts[currentPosts.length - 1].id + 1, ...formData }]);
@@ -66,12 +67,22 @@ const PostForm = () => {
 
     }
 
+    // funzione per la cancellazione dei post
     function deletePost(idPost) {
         const updatePost = posts.filter((post) => {
             return post.id !== idPost;
         })
 
-        setPosts(updatePost);
+        // chiamata axios alla rotta di delete
+        axios.delete(`http://localhost:3000/posts/${idPost}`)
+            .then(res =>
+                // lo sostituiamo
+                setPosts(updatePost)
+            )
+            .catch(err => console.log(err)
+            )
+
+
     }
 
     // contenuto della pagina
