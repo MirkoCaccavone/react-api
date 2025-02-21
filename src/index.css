@@ -1,8 +1,63 @@
-.postItem {
-  margin: 10px;
-  border: 1px solid black;
+h1 {
+  text-align: center;
+
 }
 
-#formPost input {
+#formPost input,
+#formPost textarea {
   display: block;
+  padding: 5px;
+  margin: 10px auto;
+  width: 350px;
+  height: 30px;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: center;
+}
+
+.addButton {
+  display: block;
+  width: 200px;
+  height: 30px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.containerPost {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.postItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin-top: 35px;
+  border: 1px solid black;
+  width: 350px;
+  text-align: center;
+}
+
+.postItem img {
+  width: 300px;
+  margin: auto;
+}
+
+.contenuto {
+  height: 300px;
+}
+
+.deleteButton {
+  width: 100px;
+  height: 30px;
+  margin: auto;
+  font-size: 15px;
+  color: red;
+  background-color: #fff;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
 }
