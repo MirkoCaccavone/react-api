@@ -1,7 +1,6 @@
 // Hook di React per gestire lo stato del componente
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 const initialFormData = {
     title: "",
     content: "",
@@ -88,8 +87,6 @@ const PostForm = () => {
     // contenuto della pagina
     return (
         <>
-            <h1>questo è il form delle pizze</h1>
-
 
             <form id="formPost" action="#" onSubmit={handleSubmit}>
                 <input
@@ -108,7 +105,7 @@ const PostForm = () => {
                 ></textarea>
 
                 <input
-                    type="name"
+                    type="text"
                     name="image"
                     onChange={handleFormData}
                     value={formData.image}
@@ -133,25 +130,29 @@ const PostForm = () => {
                 /> */}
 
                 {/* bottone di invio */}
-                <button>Aggiungi</button>
+                <button className="addButton">Aggiungi</button>
 
             </form>
 
 
 
-            {posts.map((post) => (
-                <div className="postItem" key={post.id}>
-                    <h2>{post.title}</h2>
-                    {/* <h3>{post.autore}</h3> */}
-                    <p>{post.content}</p>
-                    <img src={post.image} alt={post.title} />
-                    <p>{post.tags.join(', ')}</p>
-                    {/* <span>{post.published ? "post pubblicato" : "post non pubblicato"}</span> */}
-                    <button onClick={() => deletePost(post.id)}>Cancella</button>
+            <div className="containerPost">
 
-                </div>
-            ))
-            }
+
+                {posts.map((post) => (
+                    <div className="postItem" key={post.id}>
+                        <h2>{post.title}</h2>
+                        {/* <h3>{post.autore}</h3> */}
+                        <p className="contenuto">{post.content}</p>
+                        <img src={post.image} alt={post.title} />
+                        <p>{post.tags.join(', ')}</p>
+                        {/* <span>{post.published ? "post pubblicato" : "post non pubblicato"}</span> */}
+                        <button className="deleteButton" onClick={() => deletePost(post.id)}>Cancella</button>
+
+                    </div>
+                ))
+                }
+            </div>
         </>
     )
 }
