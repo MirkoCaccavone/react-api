@@ -4,10 +4,10 @@ import axios from "axios";
 
 const initialFormData = {
     title: "",
-    autore: "",
-    contenuto: "",
-    categoria: "",
-    published: false,
+    content: "",
+    image: "",
+    tags: [],
+    // published: false,
 };
 
 const PostForm = () => {
@@ -36,7 +36,9 @@ const PostForm = () => {
 
     // funzione di gestione delle info dei campi
     function handleFormData(e) {
-        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        const value = e.target.name === "tags" ? e.target.value.split(",") : e.target.value;
+
+        // const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
 
         setFormData((currentFormData) => ({
             ...currentFormData,
@@ -48,12 +50,28 @@ const PostForm = () => {
     function handleSubmit(e) {
         e.preventDefault();
 
+        // chiamata verso la API in post con invio dati nuovo post
+        axios.post("http://localhost:3000/posts", formData)
+            .then(res => {
+                // uso la risposta dell API per creare il nuovo array posts
+                setPosts((currentPosts) => [...currentPosts, res.data])
+            })
+            .catch()
+
         // aggiungo il nuovo post alla lista      possiamo usare id: Date.now() per un id univoco
-        setPosts((currentPosts) => [...currentPosts, { id: currentPosts[currentPosts.length - 1].id + 1, ...formData }]);
+        // setPosts((currentPosts) => [...currentPosts, { id: currentPosts[currentPosts.length - 1].id + 1, ...formData }]);
 
         // resetto il form
         setFormData(initialFormData);
 
+    }
+
+    function deletePost(idPost) {
+        const updatePost = posts.filter((post) => {
+            return post.id !== idPost;
+        })
+
+        setPosts(updatePost);
     }
 
     // contenuto della pagina
@@ -71,37 +89,37 @@ const PostForm = () => {
                     placeholder="Inserisci titolo post"
                 />
 
-                <input
-                    type="text"
-                    name="autore"
-                    onChange={handleFormData}
-                    value={formData.autore}
-                    placeholder="Nome autore"
-                />
-
                 <textarea
-                    name="contenuto"
+                    name="content"
                     onChange={handleFormData}
-                    value={formData.contenuto}
+                    value={formData.content}
                     placeholder="Contenuto post"
                 ></textarea>
 
                 <input
-                    type="text"
-                    name="categoria"
+                    type="name"
+                    name="image"
                     onChange={handleFormData}
-                    value={formData.categoria}
-                    placeholder="Categoria post"
+                    value={formData.image}
+                    placeholder="image post"
                 />
 
-                <label htmlFor="published">pubblicato</label>
+                <input
+                    type="text"
+                    name="tags"
+                    onChange={handleFormData}
+                    value={formData.tags}
+                    placeholder="tag post"
+                />
+
+                {/* <label htmlFor="published">pubblicato</label>
                 <input
                     type="checkbox"
                     name="published"
                     checked={formData.published}
                     onChange={handleFormData}
                     id="published"
-                />
+                /> */}
 
                 {/* bottone di invio */}
                 <button>Aggiungi</button>
@@ -118,6 +136,7 @@ const PostForm = () => {
                     <img src={post.image} alt={post.title} />
                     <p>{post.tags.join(', ')}</p>
                     {/* <span>{post.published ? "post pubblicato" : "post non pubblicato"}</span> */}
+                    <button onClick={() => deletePost(post.id)}>Cancella</button>
 
                 </div>
             ))
